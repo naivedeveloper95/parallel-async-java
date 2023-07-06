@@ -26,6 +26,17 @@ class ParallelStreamsExampleTest {
 
     @ParameterizedTest
     @ValueSource(booleans = {false, true})
+    void string_toLowerCase(boolean isParallel) {
+        List<String> namesList = DataSet.namesList();
+        startTimer();
+        List<String> resultList = parallelStreamsExample.string_toLowerCase(namesList, isParallel);
+        timeTaken();
+        assertEquals(4, resultList.size());
+        resultList.forEach(name -> assertTrue(name.equals(name.toLowerCase())));
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
     void stringTransformNew(boolean isParallel) {
         startTimer();
         List<String> inputList = DataSet.namesList();
@@ -33,7 +44,6 @@ class ParallelStreamsExampleTest {
         //when
         List<String> stringList = parallelStreamsExample.stringTransformNew(inputList, isParallel);
         timeTaken();
-        stopWatchReset();
 
         //then
         assertEquals(4, stringList.size());
