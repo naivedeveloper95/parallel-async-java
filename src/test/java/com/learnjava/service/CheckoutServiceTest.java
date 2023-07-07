@@ -17,6 +17,7 @@ class CheckoutServiceTest {
         Cart cart = DataSet.createCart(6);
         CheckoutResponse checkoutResponse = checkoutService.checkout(cart);
         assertEquals(CheckoutStatus.SUCCESS, checkoutResponse.getCheckoutStatus());
+        assertTrue(checkoutResponse.getFinalRate() > 0);
     }
 
     @Test
