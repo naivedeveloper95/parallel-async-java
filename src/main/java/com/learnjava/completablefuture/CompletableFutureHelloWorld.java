@@ -14,6 +14,7 @@ public class CompletableFutureHelloWorld {
         HelloWorldService helloWorldService = new HelloWorldService();
 
         CompletableFuture.supplyAsync(helloWorldService::helloWorld)
+                .thenApply(String::toUpperCase)
                 .thenAccept((result) -> {
                     log("Result is : " + result);
                 })
