@@ -44,4 +44,11 @@ class CompletableFutureHelloWorldTest {
         String test = "hello world! Hi CompletableFuture!";
         assertEquals(test.toUpperCase(), helloWorld);
     }
+
+    @Test
+    void helloWorld_4_async_calls() {
+        String helloWorld = cfhw.helloWorld_4_async_calls();
+        String test = "hello world! Hi CompletableFuture! Hey! You good?";
+        assertEquals(test.toUpperCase(), helloWorld);
+    }
 }
