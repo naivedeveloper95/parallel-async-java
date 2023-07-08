@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CompletableFuture;
 
+import static com.learnjava.util.CommonUtil.startTimer;
+import static com.learnjava.util.CommonUtil.timeTaken;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CompletableFutureHelloWorldTest {
@@ -50,5 +52,17 @@ class CompletableFutureHelloWorldTest {
         String helloWorld = cfhw.helloWorld_4_async_calls();
         String test = "hello world! Hi CompletableFuture! Hey! You good?";
         assertEquals(test.toUpperCase(), helloWorld);
+    }
+
+    @Test
+    void helloWorld_thenCompose() {
+        startTimer();
+        CompletableFuture<String> completableFuture = cfhw.helloWorld_thenCompose();
+
+        completableFuture.thenAccept((result) -> {
+                    assertEquals("hello world!".toUpperCase(), result);
+                })
+                .join();
+        timeTaken();
     }
 }
