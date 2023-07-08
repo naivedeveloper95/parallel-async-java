@@ -30,4 +30,18 @@ class CompletableFutureHelloWorldTest {
                 })
                 .join();
     }
+
+    @Test
+    void helloWorldMultipleAsyncCalls() {
+        String helloWorld = cfhw.helloWorldMultipleAsyncCalls();
+        String test = "hello world!";
+        assertEquals(test.toUpperCase(), helloWorld);
+    }
+
+    @Test
+    void helloWorldThreeAsyncCalls() {
+        String helloWorld = cfhw.helloWorldThreeAsyncCalls();
+        String test = "hello world! Hi CompletableFuture!";
+        assertEquals(test.toUpperCase(), helloWorld);
+    }
 }
