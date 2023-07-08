@@ -20,4 +20,14 @@ class CompletableFutureHelloWorldTest {
                 })
                 .join();
     }
+
+    @Test
+    void helloWorld_withSize() {
+        CompletableFuture<String> completableFuture = cfhw.helloWorld_withSize();
+        String test = "hello world";
+        completableFuture.thenAccept((result) -> {
+                    assertEquals(test.length() + " " + test.toUpperCase(), result);
+                })
+                .join();
+    }
 }
