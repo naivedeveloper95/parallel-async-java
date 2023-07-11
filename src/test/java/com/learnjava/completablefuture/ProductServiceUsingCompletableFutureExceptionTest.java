@@ -55,4 +55,22 @@ class ProductServiceUsingCompletableFutureExceptionTest {
 
         Assertions.assertThrows(RuntimeException.class, () -> psucf.retrieveProductDetailsWithInventory_approach2(productId));
     }
+
+    @Test
+    void retrieveProductDetailsWithInventoryExceptionHandling() {
+        String productId = "ABC123";
+        when(productInfoService.retrieveProductInfo(any()))
+                .thenCallRealMethod();
+        when(reviewService.retrieveReviews(any()))
+                .thenCallRealMethod();
+        when(inventoryService.retrieveInventory(any()))
+                .thenThrow(new RuntimeException("Exception occurred."));
+
+        Product product = psucf.retrieveProductDetailsWithInventoryExceptionHandling(productId);
+        assertNotNull(product);
+        assertTrue(product.getProductInfo().getProductOptions().size() > 0);
+        product.getProductInfo().getProductOptions().forEach(productOption -> {
+            assertEquals(1, productOption.getInventory().getCount());
+        });
+    }
 }

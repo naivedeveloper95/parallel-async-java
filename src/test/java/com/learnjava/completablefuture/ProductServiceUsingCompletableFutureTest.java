@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 class ProductServiceUsingCompletableFutureTest {
     private final ProductInfoService productInfoService = new ProductInfoService();

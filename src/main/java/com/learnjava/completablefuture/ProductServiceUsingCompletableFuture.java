@@ -120,6 +120,33 @@ public class ProductServiceUsingCompletableFuture {
         return product;
     }
 
+    public Product retrieveProductDetailsWithInventoryExceptionHandling(String productId) {
+        stopWatch.reset();
+        stopWatch.start();
+
+        CompletableFuture<ProductInfo> cfProductInfo = CompletableFuture
+                .supplyAsync(() -> productInfoService.retrieveProductInfo(productId))
+                .thenApply(productInfo -> {
+                    productInfo.setProductOptions(updateInventory_approach2(productInfo));
+                    return productInfo;
+                });
+
+        CompletableFuture<Review> cfReview = CompletableFuture
+                .supplyAsync(() -> reviewService.retrieveReviews(productId))
+                .exceptionally(e -> {
+                    log("Handle the exception in review service :: " + e.getMessage());
+                    return Review.builder().noOfReviews(0).overallRating(0.0).build();
+                });
+
+        Product product = cfProductInfo
+                .thenCombine(cfReview, (productInfo, review) -> new Product(productId, productInfo, review))
+                .join();
+
+        stopWatch.stop();
+        log("Total Time Taken : " + stopWatch.getTime());
+        return product;
+    }
+
     private List<ProductOption> updateInventory(ProductInfo productInfo) {
         List<ProductOption> productOptionList = productInfo.getProductOptions()
                 .stream()
@@ -138,6 +165,10 @@ public class ProductServiceUsingCompletableFuture {
                 .map(productOption -> {
                     return CompletableFuture
                             .supplyAsync(() -> inventoryService.retrieveInventory(productOption))
+                            .exceptionally(ex -> {
+                                log("Handle the exception in updateInventory_approach2 :: " + ex.getMessage());
+                                return Inventory.builder().count(1).build();
+                            })
                             .thenApply(inventory -> {
                                 productOption.setInventory(inventory);
                                 return productOption;
