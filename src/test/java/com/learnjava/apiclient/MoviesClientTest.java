@@ -18,8 +18,9 @@ class MoviesClientTest {
             .build();
 
     MoviesClient moviesClient = new MoviesClient(webClient);
+    private List<Long> movieInfoIdList;
+
     @Test
-    @RepeatedTest(10)
     void retrieveMovie() {
         stopWatchReset();
         startTimer();
@@ -31,8 +32,8 @@ class MoviesClientTest {
         assertEquals("Batman Begins", movie.getMovieInfo().getName());
         assert movie.getReviewList().size() == 1;
     }
+
     @Test
-    @RepeatedTest(10)
     void retrieveMovieCF() {
         var movieInfoId = 1L;
         stopWatchReset();
@@ -44,8 +45,8 @@ class MoviesClientTest {
         assertEquals("Batman Begins", movieCF.getMovieInfo().getName());
         assert movieCF.getReviewList().size() == 1;
     }
+
     @Test
-    @RepeatedTest(10)
     void retrieveMoviesList() {
         stopWatchReset();
         startTimer();
@@ -56,8 +57,8 @@ class MoviesClientTest {
         timeTaken();
         assert movies.size() == 7;
     }
+
     @Test
-    @RepeatedTest(10)
     void retrieveMovieListCF() {
         stopWatchReset();
         startTimer();
@@ -66,6 +67,20 @@ class MoviesClientTest {
         var movies = moviesClient.retrieveMovieListCF(movieInfoIdList);
 
         timeTaken();
+        assert movies.size() == 7;
+    }
+
+    @Test
+    void retrieveMovieListCF_AllOff() {
+        var movieInfoIds = List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+
+        //when
+        CommonUtil.startTimer();
+        var movies = moviesClient.retrieveMovieListCF_AllOff(movieInfoIds);
+
+        System.out.println("movies : " + movies);
+        CommonUtil.timeTaken();
+        //then
         assert movies.size() == 7;
     }
 }

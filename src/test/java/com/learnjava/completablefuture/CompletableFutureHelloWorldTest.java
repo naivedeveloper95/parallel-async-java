@@ -86,4 +86,10 @@ class CompletableFutureHelloWorldTest {
         String test = "hello world! Hi CompletableFuture!";
         assertEquals(test.toUpperCase(), helloWorld);
     }
+
+    @Test
+    void anyOf() {
+        String helloWorld = cfhw.anyOf();
+        assertEquals("hello world!", helloWorld);
+    }
 }
