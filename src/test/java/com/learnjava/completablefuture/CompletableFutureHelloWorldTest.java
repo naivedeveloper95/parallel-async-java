@@ -48,6 +48,13 @@ class CompletableFutureHelloWorldTest {
     }
 
     @Test
+    void helloWorldThreeAsyncCallsCustomThreadPool() {
+        String helloWorld = cfhw.helloWorldThreeAsyncCallsCustomThreadPool();
+        String test = "hello world! Hi CompletableFuture!";
+        assertEquals(test.toUpperCase(), helloWorld);
+    }
+
+    @Test
     void helloWorld_4_async_calls() {
         String helloWorld = cfhw.helloWorld_4_async_calls();
         String test = "hello world! Hi CompletableFuture! Hey! You good?";
@@ -64,5 +71,19 @@ class CompletableFutureHelloWorldTest {
                 })
                 .join();
         timeTaken();
+    }
+
+    @Test
+    void helloWorldThreeAsyncCallsLogAsync() {
+        String helloWorld = cfhw.helloWorldThreeAsyncCallsLogAsync();
+        String test = "hello world! Hi CompletableFuture!";
+        assertEquals(test.toUpperCase(), helloWorld);
+    }
+
+    @Test
+    void helloWorldThreeAsyncCallsCustomThreadPoolAsync() {
+        String helloWorld = cfhw.helloWorldThreeAsyncCallsCustomThreadPoolAsync();
+        String test = "hello world! Hi CompletableFuture!";
+        assertEquals(test.toUpperCase(), helloWorld);
     }
 }
